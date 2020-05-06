@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Intent intent = new Intent(getApplicationContext(), MainPageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), PhysicalHealthActivity.class);
                 startActivity(intent);
                 finish();
             }
