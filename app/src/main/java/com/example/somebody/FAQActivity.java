@@ -2,9 +2,11 @@ package com.example.somebody;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,6 +27,8 @@ public class FAQActivity extends AppCompatActivity {
     int count = 0;
     ImageView Back;
 
+    int[] colors = {R.color.lightSkin, R.color.periwinkle, R.color.yellow2, R.color.palePink, R.color.skinColor,};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,8 @@ public class FAQActivity extends AppCompatActivity {
 
         listView = (ListView)findViewById(R.id.lvfaqlist);
         Back = (ImageView)findViewById(R.id.ivback);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         try {
             reader = new BufferedReader(new InputStreamReader(getAssets().open("coronafaq")));

@@ -1,19 +1,33 @@
 package com.example.somebody;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,15 +38,25 @@ public class HelpSomeoneActivity extends AppCompatActivity {
     ListView listView;
 
     CardView Food, Medical, Financial, Shelter, Other;
-    TextView Search;
+    Button Search;
+    ImageView Back;
     boolean sel1 = false, sel2 = false, sel3 = false, sel4 = false, sel5 = false;
 
-    ArrayList<String> cat = new ArrayList<>();
+    ArrayList<HelpDetails> HelpList = new ArrayList<>();
+
+    String category = "";
+
+    DatabaseReference myRef;
+    HelpDetails helpDetails;
+
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help_someone);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         listView = (ListView)findViewById(R.id.lvhelpsomeone);
         Food = (CardView)findViewById(R.id.cvhsacard1);
@@ -40,7 +64,17 @@ public class HelpSomeoneActivity extends AppCompatActivity {
         Financial = (CardView)findViewById(R.id.cvhsacard3);
         Shelter = (CardView)findViewById(R.id.cvhsacard4);
         Other = (CardView)findViewById(R.id.cvhsacard5);
-        Search = (TextView)findViewById(R.id.tvhsasearch);
+        Search = (Button) findViewById(R.id.btnhsasearch);
+        Back = (ImageView)findViewById(R.id.ivghaback);
+
+        myRef = FirebaseDatabase.getInstance().getReference();
+
+        Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         Food.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,10 +119,46 @@ public class HelpSomeoneActivity extends AppCompatActivity {
         Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if (sel1){ cat.add("Food"); } if (sel2){ cat.add("Medical"); } if (sel3){ cat.add("Financial"); } if (sel4){ cat.add("Other"); }
+                category += (sel1)?("Food "):("");
+                category += (sel2)?("Medical "):("");
+                category += (sel3)?("Financial "):("");
+                category += (sel4)?("Shelter "):("");
+                category += (sel5)?("Other "):("");
 
-                HelpSomeoneCustomAdapter customAdapter = new HelpSomeoneCustomAdapter();
-                listView.setAdapter(customAdapter);
+                if (category.equals("")){
+                    Toast.makeText(HelpSomeoneActivity.this, "Please select a category!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                dialog = new ProgressDialog(HelpSomeoneActivity.this);
+                dialog.setMessage("Searching...");
+                dialog.setCancelable(false);
+                dialog.show();
+
+                Query query = myRef.child("AskForHelp");
+
+                query.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                helpDetails = snapshot.getValue(HelpDetails.class);
+                                HelpList.add(helpDetails);
+                            }
+                            HelpSomeoneCustomAdapter customAdapter = new HelpSomeoneCustomAdapter();
+                            listView.setAdapter(customAdapter);
+                            dialog.dismiss();
+                        }
+                        else{
+                            Toast.makeText(HelpSomeoneActivity.this, "No Results Found!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 
@@ -98,7 +168,7 @@ public class HelpSomeoneActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 10;
+            return HelpList.size();
         }
 
         @Override
@@ -115,46 +185,35 @@ public class HelpSomeoneActivity extends AppCompatActivity {
         public View getView(final int i, View view, ViewGroup viewGroup) {
             view = getLayoutInflater().inflate(R.layout.post_layout, null);
 
-            /*RelativeLayout layout = (RelativeLayout) view.findViewById(R.id.rlnmdl);
-            TextView name = (TextView) view.findViewById(R.id.tvnmdlname);
-            TextView description = (TextView) view.findViewById(R.id.tvnmdldescription);
-            ImageView Call = (ImageView) view.findViewById(R.id.ivcall);
-            ImageView Email = (ImageView) view.findViewById(R.id.ivemail);
-            ImageView Chat = (ImageView) view.findViewById(R.id.ivchat);
+            LinearLayout layout = (LinearLayout) view.findViewById(R.id.llplmain);
+            TextView name = (TextView) view.findViewById(R.id.tvplname);
+            TextView address = (TextView) view.findViewById(R.id.tvpllocation);
+            TextView description = (TextView) view.findViewById(R.id.tvpldesc);
+            ImageView UserPic = (ImageView)view.findViewById(R.id.ivplpropic);
+            ImageView HelpPic = (ImageView)view.findViewById(R.id.ivplhelppic);
 
-            layout.setBackgroundColor(Color.parseColor(colors[i % 4]));
-            name.setText(HelpList.get(i).getName());
+            Glide.with(HelpSomeoneActivity.this).load(HelpList.get(i).getUserPicLink()).into(UserPic);
+            Glide.with(HelpSomeoneActivity.this).load(HelpList.get(i).getHelpPicLink()).into(HelpPic);
+
+            //layout.setBackgroundColor(Color.parseColor(colors[i % 4]));
+            name.setText(HelpList.get(i).getUserName());
+            address.setText(HelpList.get(i).getHelpAddress());
             description.setText(HelpList.get(i).getDescription());
 
-            Call.setOnClickListener(new View.OnClickListener() {
+            layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Uri number = Uri.parse("tel:" + HelpList.get(i).getPhoneNo());
-                    Intent intent = new Intent(Intent.ACTION_DIAL, number);
+                    Intent intent = new Intent(getApplicationContext(), DisplayProfileActivity.class);
                     startActivity(intent);
                 }
             });
-
-            Email.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("mailto", HelpList.get(i).getEmail(), null)));
-                }
-            });
-
-            Chat.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", HelpList.get(i).getPhoneNo(), null)));
-                }
-            });*/
 
             return view;
         }
     }
 
     void select(RelativeLayout view){
-        view.setBackgroundTintList(getResources().getColorStateList(R.color.darkcerulian));
+        view.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
         TextView tv = (TextView)view.getChildAt(1);
         tv.setTextColor(Color.parseColor("#ffffff"));
     }

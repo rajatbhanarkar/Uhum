@@ -7,17 +7,18 @@
     android:layout_marginLeft="20dp"
     android:layout_marginRight="20dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="10dp"
+    app:cardElevation="0dp"
     android:elevation="0dp"
     android:clipToPadding="false">
 
     <LinearLayout
+        android:id="@+id/llplmain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:background="@color/white"
-        android:padding="15dp">
+        android:padding="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,13 +31,14 @@
                 app:cardCornerRadius="20dp">
 
                 <ImageView
+                    android:id="@+id/ivplpropic"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/nakulsir"/>
+                    android:layout_height="match_parent" />
 
             </androidx.cardview.widget.CardView>
 
             <TextView
+                android:id="@+id/tvplname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans"
@@ -47,6 +49,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tvpllocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/opensans"
@@ -58,6 +61,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tvpldesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/opensans"
@@ -74,6 +78,7 @@
             app:cardElevation="5dp">
 
             <ImageView
+                android:id="@+id/ivplhelppic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"

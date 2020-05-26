@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@null">
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/spinKit"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/card_corners"
+        android:backgroundTint="@color/white"
+        android:padding="50dp"
+        style="@style/SpinKitView.ChasingDots"
+        app:SpinKit_Color="@color/colorPrimary"
+        />
+
+</RelativeLayout>

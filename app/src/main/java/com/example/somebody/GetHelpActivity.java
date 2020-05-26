@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -14,6 +15,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -31,13 +34,15 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import java.io.File;
 
 public class GetHelpActivity extends AppCompatActivity {
 
     CardView Food, Medical, Financial, Shelter, Other;
-    TextView Post, More, Less;
+    TextView More, Less;
+    Button Post;
     boolean sel1 = false, sel2 = false, sel3 = false, sel4 = false, sel5 = false;
     ImageView Back, Upload, UploadedImage;
     EditText add1, city, NOP, description, phone;
@@ -47,9 +52,13 @@ public class GetHelpActivity extends AppCompatActivity {
     StorageReference storageReference;
     DatabaseReference myRef;
 
-    File file;
+    File file = null;
 
     HelpDetails helpDetails;
+
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    UserDetails userDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +70,7 @@ public class GetHelpActivity extends AppCompatActivity {
         Financial = (CardView) findViewById(R.id.cvhsacard3);
         Shelter = (CardView) findViewById(R.id.cvhsacard4);
         Other = (CardView) findViewById(R.id.cvhsacard5);
-        Post = (TextView) findViewById(R.id.tvghaconfirm);
+        Post = (Button) findViewById(R.id.btnpsasubmit);
 
         add1 = (EditText) findViewById(R.id.etadd1);
         city = (EditText) findViewById(R.id.etcity);
@@ -74,10 +83,16 @@ public class GetHelpActivity extends AppCompatActivity {
 
         Back = (ImageView) findViewById(R.id.ivghaback);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         Upload = (ImageView) findViewById(R.id.ivghaupload);
         UploadedImage = (ImageView) findViewById(R.id.ivghauploadedimage);
 
-        myRef = FirebaseDatabase.getInstance().getReference().child("AskForHelp").child("UID000001");
+        sharedPreferences = getSharedPreferences("SomebodySharedPreferences", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        userDetails = new Gson().fromJson(sharedPreferences.getString("UserDetails",""), UserDetails.class);
+
+        myRef = FirebaseDatabase.getInstance().getReference().child("AskForHelp").child(""+userDetails.getMobNo());
 
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +213,22 @@ public class GetHelpActivity extends AppCompatActivity {
                 category += (sel2)?("Medical "):("");
                 category += (sel3)?("Financial "):("");
                 category += (sel4)?("Shelter "):("");
-                category += (sel4)?("Other "):("");
+                category += (sel5)?("Other "):("");
+
+                if (file == null){
+                    Toast.makeText(GetHelpActivity.this, "Please upload a proof photo for help", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (category.equals("")){
+                    Toast.makeText(GetHelpActivity.this, "Please choose a category first!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if ((add1.getText().toString().trim().equals("")) || (city.getText().toString().trim().equals("")) || (phone.getText().toString().trim().length() != 10) || (description.getText().toString().trim().equals(""))){
+                    Toast.makeText(GetHelpActivity.this, "Please fill in all fields!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 progressDialog = new ProgressDialog(GetHelpActivity.this);
                 progressDialog.setMessage("Posting...");
@@ -206,7 +236,7 @@ public class GetHelpActivity extends AppCompatActivity {
                 progressDialog.show();
 
                 storageReference = FirebaseStorage.getInstance().getReference();
-                storageReference = storageReference.child("AskForHelpImages/UID000001/" + file.getName());
+                storageReference = storageReference.child("AskForHelpImages/" + file.getName());
                 storageReference.putFile(Uri.fromFile(file)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -215,7 +245,9 @@ public class GetHelpActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 helpDetails = new HelpDetails();
-                                helpDetails.setUserID("UID000001");
+                                helpDetails.setUserName(""+userDetails.getName());
+                                helpDetails.setUserPicLink(""+userDetails.getProfPic());
+                                helpDetails.setUserPhone(""+userDetails.getMobNo());
                                 helpDetails.setHelpAddress(add1.getText().toString() + ", " + city.getText().toString());
                                 helpDetails.setDescription(description.getText().toString());
                                 helpDetails.setNop(Integer.parseInt(NOP.getText().toString()));

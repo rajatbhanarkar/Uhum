@@ -1,18 +1,10 @@
 package com.example.somebody;
 
 public class HelpDetails {
-    private String UserID, HelpPicLink, HelpContact, HelpAddress, Category, Description;
+    private String HelpPicLink, HelpContact, HelpAddress, Category, Description, UserName, UserPhone, UserPicLink;
     int Nop;
 
     public HelpDetails() {
-    }
-
-    public String getUserID() {
-        return UserID;
-    }
-
-    public void setUserID(String userID) {
-        UserID = userID;
     }
 
     public String getHelpPicLink() {
@@ -61,5 +53,29 @@ public class HelpDetails {
 
     public void setNop(int nop) {
         Nop = nop;
+    }
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
+
+    public String getUserPhone() {
+        return UserPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        UserPhone = userPhone;
+    }
+
+    public String getUserPicLink() {
+        return UserPicLink;
+    }
+
+    public void setUserPicLink(String userPicLink) {
+        UserPicLink = userPicLink;
     }
 }

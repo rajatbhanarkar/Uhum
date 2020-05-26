@@ -16,7 +16,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/chat_send"
-        android:backgroundTint="@color/green"
+        android:backgroundTint="@color/colorPrimary"
         android:text="What kind of help?"
         android:layout_centerVertical="true"
         android:textColor="@color/white"
@@ -32,10 +32,10 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="50dp"
         android:background="@drawable/chat_recieve"
-        android:backgroundTint="@color/colorPrimary"
+        android:backgroundTint="@color/palePink"
         android:text="What kind of help?"
         android:layout_centerVertical="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold"/>
 

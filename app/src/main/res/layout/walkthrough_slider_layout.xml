@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:id="@+id/llwtlsmain">
+
+    <ImageView
+        android:id="@+id/ivwtslimage"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/helpsomeone"
+        android:padding="50dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tvwtslmain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:fontFamily="@font/opensans"
+        android:textSize="24sp"
+        android:text="Be a superhero! Help people in these tough times!"
+        android:layout_marginTop="300dp"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

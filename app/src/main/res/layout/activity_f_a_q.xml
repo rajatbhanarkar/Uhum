@@ -4,60 +4,69 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/darkcerulian"
+    android:background="@color/white"
     tools:context=".FAQActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        app:cardElevation="15dp"
+        app:cardCornerRadius="20dp">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/ivback"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:clipToPadding="false"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:src="@drawable/ic_back_black"
+            android:background="@color/periwinkle"/>
+    </androidx.cardview.widget.CardView>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/opensans"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="Covid-19 FAQs"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-                <ImageView
-                    android:id="@+id/ivback"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_back" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        app:cardElevation="15dp"
+        android:layout_alignParentRight="true"
+        app:cardCornerRadius="35dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/opensans"
-                    android:layout_marginTop="10dp"
-                    android:text="Covid-19 FAQs"
-                    android:layout_marginLeft="50dp"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/iv2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/yellow2"/>
+    </androidx.cardview.widget.CardView>
 
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
+
+
+
+
+
 
     <ListView
         android:id="@+id/lvfaqlist"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:padding="20dp"
         android:background="@drawable/top_rounded_corners"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none"
         android:divider="@null"
         android:orientation="vertical"
-        android:layout_marginTop="55dp"/>
+        android:layout_marginTop="100dp" />
 
 </RelativeLayout>

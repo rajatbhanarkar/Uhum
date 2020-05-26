@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#2196f3</color>
-    <color name="colorPrimaryDark">#223c79</color>
+    <color name="colorPrimaryDark">#ffffff</color>
     <color name="colorAccent">#4f3c74</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
@@ -44,4 +44,10 @@
     <color name="antiflashwhite">#f8f8f8</color>
     <color name="camel">#c5ac70</color>
     <color name="darkcerulian">#223c79</color>
+
+    <color name="lightcolor1">#fef2ef</color>
+    <color name="lightcolor2">#edf5ff</color>
+    <color name="lightcolor3">#e5fbf2</color>
+
+    <color name="yellow2">#ffe082</color>
 </resources>
