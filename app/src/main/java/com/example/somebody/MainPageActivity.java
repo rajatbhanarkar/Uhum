@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -92,6 +93,10 @@ public class MainPageActivity extends AppCompatActivity {
 
         String propic = userDetails.getProfPic();
 
+        Dialog dialog = new Dialog(this, R.style.myDialog);
+        dialog.setContentView(R.layout.avatar_select_dialog);
+        dialog.show();
+
         if (propic.equals("Male")){
             Propic.setImageResource(R.drawable.profpiclogo);
             MenuProPic.setImageResource(R.drawable.profpiclogo);
@@ -116,8 +121,7 @@ public class MainPageActivity extends AppCompatActivity {
         Menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                throw new RuntimeException("Test Crash");
-                //drawerLayout.openDrawer(linearLayout);
+                drawerLayout.openDrawer(linearLayout);
             }
         });
 
@@ -154,7 +158,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         requestQueue.add(jsonObjectRequest);
 
-        /*cardView1.setOnClickListener(new View.OnClickListener() {
+        cardView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), HelpSomeoneActivity.class);
@@ -168,7 +172,7 @@ public class MainPageActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), GetHelpActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
         cardView3.setOnClickListener(new View.OnClickListener() {
             @Override

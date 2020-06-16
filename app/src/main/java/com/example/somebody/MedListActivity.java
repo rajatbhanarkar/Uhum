@@ -32,7 +32,7 @@ public class MedListActivity extends AppCompatActivity {
     String CatName = "";
 
     ArrayList<SongDetails> SongList = new ArrayList<>();
-    int[] Images = {R.drawable.basicmedlogo, R.drawable.guidedmedlogo, R.drawable.mantramedlogo, R.drawable.immuboosterlogo, R.drawable.meditation4};
+    int[] Images = {R.drawable.basicmedlogo, R.drawable.therapylogo, R.drawable.relaxlogo, R.drawable.sleeplogo, R.drawable.meditationlogo};
     int currImage;
     int[] colors = {R.color.lightSkin, R.color.periwinkle, R.color.palePink, R.color.skinColor};
 
@@ -142,7 +142,7 @@ public class MedListActivity extends AppCompatActivity {
 
             tv.setText(SongList.get(i).getSongName());
             layout.setBackgroundTintList(getResources().getColorStateList(colors[i%4]));
-            iv.setBackgroundResource(currImage);
+            iv.setImageResource(currImage);
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override

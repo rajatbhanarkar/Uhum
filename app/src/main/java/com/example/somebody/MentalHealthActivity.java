@@ -55,7 +55,7 @@ public class MentalHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MedListActivity.class);
                 intent.putExtra("Category", 1);
-                intent.putExtra("CatName", "Basic Meditation");
+                intent.putExtra("CatName", "Breathwork");
                 startActivity(intent);
             }
         });
@@ -65,7 +65,7 @@ public class MentalHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MedListActivity.class);
                 intent.putExtra("Category", 2);
-                intent.putExtra("CatName", "Guided Meditation");
+                intent.putExtra("CatName", "Therapy");
                 startActivity(intent);
             }
         });
@@ -75,7 +75,7 @@ public class MentalHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MedListActivity.class);
                 intent.putExtra("Category", 3);
-                intent.putExtra("CatName", "Mantra Meditation");
+                intent.putExtra("CatName", "Relaxing");
                 startActivity(intent);
             }
         });
@@ -85,7 +85,7 @@ public class MentalHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MedListActivity.class);
                 intent.putExtra("Category", 4);
-                intent.putExtra("CatName", "Immunity Booster");
+                intent.putExtra("CatName", "Sleep Stories");
                 startActivity(intent);
             }
         });
@@ -95,7 +95,7 @@ public class MentalHealthActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MedListActivity.class);
                 intent.putExtra("Category", 5);
-                intent.putExtra("CatName", "Yoga");
+                intent.putExtra("CatName", "Meditation");
                 startActivity(intent);
             }
         });

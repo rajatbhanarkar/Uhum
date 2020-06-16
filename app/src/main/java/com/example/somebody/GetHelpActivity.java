@@ -4,26 +4,39 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +50,7 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
 import java.io.File;
+import java.io.IOException;
 
 public class GetHelpActivity extends AppCompatActivity {
 
@@ -44,7 +58,7 @@ public class GetHelpActivity extends AppCompatActivity {
     TextView More, Less;
     Button Post;
     boolean sel1 = false, sel2 = false, sel3 = false, sel4 = false, sel5 = false;
-    ImageView Back, Upload, UploadedImage;
+    ImageView Back, Upload, UploadedImage, GPS;
     EditText add1, city, NOP, description, phone;
     String category = "";
 
@@ -59,6 +73,11 @@ public class GetHelpActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     UserDetails userDetails;
+
+    LocationManager locationManager;
+    LocationListener locationListener;
+
+    Dialog LoaderDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +101,7 @@ public class GetHelpActivity extends AppCompatActivity {
         NOP = (EditText) findViewById(R.id.etghanop);
 
         Back = (ImageView) findViewById(R.id.ivghaback);
+        GPS = (ImageView) findViewById(R.id.ivlocation);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
@@ -92,7 +112,7 @@ public class GetHelpActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
         userDetails = new Gson().fromJson(sharedPreferences.getString("UserDetails",""), UserDetails.class);
 
-        myRef = FirebaseDatabase.getInstance().getReference().child("AskForHelp").child(""+userDetails.getMobNo());
+        myRef = FirebaseDatabase.getInstance().getReference();
 
         Back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,6 +226,58 @@ public class GetHelpActivity extends AppCompatActivity {
             }
         });
 
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                try {
+                    Geocoder geocoder = new Geocoder(GetHelpActivity.this);
+                    Address address = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1).get(0);
+                    add1.setText(""+address.getSubLocality());
+                    city.setText(""+address.getLocality());
+                    LoaderDialog.dismiss();
+                } catch (IOException e) {
+                    Toast.makeText(GetHelpActivity.this, "Error! Please ensure your GPS is turned on!", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+            }
+            @Override
+            public void onProviderEnabled(String s) {
+            }
+            @Override
+            public void onProviderDisabled(String s) {
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        };
+
+        GPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(GetHelpActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(GetHelpActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3000);
+                    return;
+                }
+                else{
+                    LoaderDialog = new Dialog(GetHelpActivity.this);
+                    View vieww = getLayoutInflater().inflate(R.layout.loader_layout, null);
+                    ProgressBar progressBar = (ProgressBar) vieww.findViewById(R.id.spinKit);
+                    DoubleBounce doubleBounce = new DoubleBounce();
+                    progressBar.setIndeterminateDrawable(doubleBounce);
+                    LoaderDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    LoaderDialog.setContentView(vieww);
+                    LoaderDialog.setCancelable(false);
+                    LoaderDialog.show();
+
+                    locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
+                }
+            }
+        });
+
+
+
         Post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -232,7 +304,6 @@ public class GetHelpActivity extends AppCompatActivity {
 
                 progressDialog = new ProgressDialog(GetHelpActivity.this);
                 progressDialog.setMessage("Posting...");
-                progressDialog.setCancelable(false);
                 progressDialog.show();
 
                 storageReference = FirebaseStorage.getInstance().getReference();
@@ -255,7 +326,7 @@ public class GetHelpActivity extends AppCompatActivity {
                                 helpDetails.setHelpPicLink(uri.toString());
                                 helpDetails.setCategory(category);
 
-                                myRef.setValue(helpDetails);
+                                myRef.child("AskForHelp").child(""+userDetails.getMobNo()).setValue(helpDetails);
 
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Successfully Posted!", Toast.LENGTH_SHORT).show();
@@ -280,14 +351,14 @@ public class GetHelpActivity extends AppCompatActivity {
     }
 
     void select(RelativeLayout view) {
-        view.setBackgroundTintList(getResources().getColorStateList(R.color.darkcerulian));
-        TextView tv = (TextView) view.getChildAt(1);
+        view.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
+        TextView tv = (TextView) view.getChildAt(2);
         tv.setTextColor(Color.parseColor("#ffffff"));
     }
 
     void deselect(RelativeLayout view) {
         view.setBackgroundTintList(null);
-        TextView tv = (TextView) view.getChildAt(1);
+        TextView tv = (TextView) view.getChildAt(2);
         tv.setTextColor(Color.parseColor("#000000"));
     }
 
@@ -301,4 +372,16 @@ public class GetHelpActivity extends AppCompatActivity {
             UploadedImage.setImageBitmap(image);
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 3000) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permissions Granted, Click on GPS Icon!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permissions Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

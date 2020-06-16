@@ -150,6 +150,7 @@ public class HelpSomeoneActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                         else{
+                            dialog.dismiss();
                             Toast.makeText(HelpSomeoneActivity.this, "No Results Found!", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -200,13 +201,13 @@ public class HelpSomeoneActivity extends AppCompatActivity {
             address.setText(HelpList.get(i).getHelpAddress());
             description.setText(HelpList.get(i).getDescription());
 
-            layout.setOnClickListener(new View.OnClickListener() {
+            /*layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getApplicationContext(), DisplayProfileActivity.class);
                     startActivity(intent);
                 }
-            });
+            });*/
 
             return view;
         }

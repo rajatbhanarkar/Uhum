@@ -9,12 +9,12 @@
     tools:context=".MentalHealthActivity">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         app:cardElevation="15dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="@dimen/_15sdp">
 
         <ImageView
             android:id="@+id/ivmhaback"
@@ -31,19 +31,19 @@
         android:fontFamily="@font/opensans"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
-        android:text="Meditate"
+        android:text="Mental Health"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="@dimen/_15sdp"
         android:textStyle="bold" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="@dimen/_55sdp"
+        android:layout_height="@dimen/_55sdp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         app:cardElevation="15dp"
         android:layout_alignParentRight="true"
-        app:cardCornerRadius="35dp">
+        app:cardCornerRadius="@dimen/_27sdp">
 
         <ImageView
             android:id="@+id/iv2"
@@ -53,13 +53,13 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="-30dp"
-        android:layout_marginBottom="-20dp"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginLeft="-20dp"
+        android:layout_marginBottom="-10dp"
         app:cardElevation="15dp"
         android:layout_alignParentBottom="true"
-        app:cardCornerRadius="50dp">
+        app:cardCornerRadius="@dimen/_35sdp">
 
         <ImageView
             android:id="@+id/iv3"
@@ -69,14 +69,14 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         app:cardElevation="15dp"
-        app:cardCornerRadius="25dp">
+        app:cardCornerRadius="@dimen/_20sdp">
 
         <ImageView
             android:id="@+id/iv4"
@@ -90,13 +90,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="20dp"
+        android:paddingLeft="@dimen/_15sdp"
+        android:paddingRight="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_15sdp"
         android:scrollbars="none"
         android:clipToPadding="false"
         android:orientation="vertical"
-        android:layout_marginTop="100dp">
+        android:layout_marginTop="@dimen/_80sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvhpacard1"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="@dimen/_145sdp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
@@ -130,8 +130,8 @@
                         android:background="@color/lightSkin">
 
                         <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="@dimen/_110sdp"
+                            android:layout_height="@dimen/_110sdp"
                             android:padding="15dp"
                             android:src="@drawable/basicmedlogo"
                             android:layout_centerHorizontal="true"/>
@@ -144,9 +144,9 @@
                             android:fontFamily="@font/opensans"
                             android:textAlignment="center"
                             android:paddingBottom="10dp"
-                            android:text="Basic\nMeditation"
+                            android:text="Breathwork"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold"/>
 
                     </RelativeLayout>
@@ -155,7 +155,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvhpacard2"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="@dimen/_145sdp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
@@ -170,12 +170,12 @@
                         android:background="@color/periwinkle">
 
                         <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="@dimen/_110sdp"
+                            android:layout_height="@dimen/_110sdp"
                             android:padding="15dp"
-                            android:scaleX="1.3"
-                            android:scaleY="1.3"
-                            android:src="@drawable/guidedmedlogo"
+                            android:scaleX="1.5"
+                            android:scaleY="1.5"
+                            android:src="@drawable/therapylogo2"
                             android:layout_centerHorizontal="true"/>
 
                         <TextView
@@ -186,9 +186,9 @@
                             android:fontFamily="@font/opensans"
                             android:textAlignment="center"
                             android:paddingBottom="10dp"
-                            android:text="Guided\nMeditation"
+                            android:text="Therapy"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold"/>
 
                     </RelativeLayout>
@@ -204,7 +204,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvhpacard3"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="@dimen/_145sdp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
@@ -219,12 +219,12 @@
                         android:background="@color/palePink">
 
                         <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="@dimen/_110sdp"
+                            android:layout_height="@dimen/_110sdp"
                             android:padding="15dp"
                             android:scaleX="1.3"
                             android:scaleY="1.3"
-                            android:src="@drawable/mantramedlogo"
+                            android:src="@drawable/relaxlogo"
                             android:layout_centerHorizontal="true"/>
 
                         <TextView
@@ -235,9 +235,9 @@
                             android:fontFamily="@font/opensans"
                             android:textAlignment="center"
                             android:paddingBottom="10dp"
-                            android:text="Mantra\nMeditation"
+                            android:text="Relaxing"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold"/>
 
                     </RelativeLayout>
@@ -246,7 +246,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvhpacard4"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="@dimen/_145sdp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
@@ -261,12 +261,12 @@
                         android:background="@color/skinColor">
 
                         <ImageView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
+                            android:layout_width="@dimen/_110sdp"
+                            android:layout_height="@dimen/_110sdp"
                             android:padding="15dp"
-                            android:scaleX="1.1"
-                            android:scaleY="1.1"
-                            android:src="@drawable/immuboosterlogo"
+                            android:scaleX="1.3"
+                            android:scaleY="1.3"
+                            android:src="@drawable/sleeplogo"
                             android:layout_centerHorizontal="true"/>
 
                         <TextView
@@ -277,9 +277,9 @@
                             android:fontFamily="@font/opensans"
                             android:textAlignment="center"
                             android:paddingBottom="10dp"
-                            android:text="Immunity\nBooster"
+                            android:text="Sleep Stories"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold"/>
 
                     </RelativeLayout>
@@ -295,7 +295,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cvhpacard5"
                     android:layout_width="0dp"
-                    android:layout_height="170dp"
+                    android:layout_height="@dimen/_145sdp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
@@ -310,8 +310,8 @@
                         android:background="@color/lightSkin">
 
                         <ImageView
-                            android:layout_width="220dp"
-                            android:layout_height="120dp"
+                            android:layout_width="@dimen/_210sdp"
+                            android:layout_height="@dimen/_110sdp"
                             android:padding="5dp"
                             android:src="@drawable/meditationlogo"
                             android:layout_centerHorizontal="true"/>
@@ -324,9 +324,9 @@
                             android:fontFamily="@font/opensans"
                             android:textAlignment="center"
                             android:paddingBottom="10dp"
-                            android:text="Advanced\nMeditation"
+                            android:text="Meditation"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/_12sdp"
                             android:textStyle="bold"/>
 
                     </RelativeLayout>

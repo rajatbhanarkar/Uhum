@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.airbnb.lottie.LottieAnimationView;
 
 public class WalkThroughActivity extends AppCompatActivity {
 
@@ -26,8 +29,6 @@ public class WalkThroughActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     private SliderAdapter sliderAdapter;
-    ImageView iv1, iv2, iv3, iv4, iv5;
-    CardView Next;
     int currentpage = 0;
 
     int[] colors1 = {R.color.skinColor, R.color.yellow2, R.color.periwinkle, R.color.lightSkin, R.color.palePink, R.color.skinColor, R.color.yellow2};
@@ -36,49 +37,23 @@ public class WalkThroughActivity extends AppCompatActivity {
     int[] colors4 = {R.color.lightSkin, R.color.palePink, R.color.skinColor, R.color.yellow2, R.color.periwinkle, R.color.lightSkin, R.color.palePink};
     int[] colors5 = {R.color.yellow2, R.color.periwinkle, R.color.lightSkin, R.color.palePink, R.color.skinColor, R.color.yellow2, R.color.periwinkle};
 
+    String[] names = {"help_someone_anim.json", "get_help_anim.json", "meditation_anim.json", "workout_anim.json", "counselling_anim.json", "faq_anim.json", "covid_anim.json"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_walk_through_xxhdpi);
+        setContentView(R.layout.activity_walk_through);
 
         viewPager = (ViewPager)findViewById(R.id.viewPager);
-        Next = (CardView) findViewById(R.id.cvwtanext);
-        iv1 = (ImageView)findViewById(R.id.iv1);
-        iv2 = (ImageView)findViewById(R.id.iv2);
-        iv3 = (ImageView)findViewById(R.id.iv3);
-        iv4 = (ImageView)findViewById(R.id.iv4);
-        iv5 = (ImageView)findViewById(R.id.iv5);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
 
         sharedPreferences = getSharedPreferences("SomebodySharedPreferences", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.putInt("FirstTime", 1);
-        editor.apply(); editor.commit();
-
-        iv1.setBackgroundColor(getResources().getColor(colors1[0]));
-        iv2.setBackgroundColor(getResources().getColor(colors2[0]));
-        iv3.setBackgroundColor(getResources().getColor(colors3[0]));
-        iv4.setBackgroundColor(getResources().getColor(colors4[0]));
-        iv5.setBackgroundColor(getResources().getColor(colors5[0]));
 
         sliderAdapter = new SliderAdapter(this);
         viewPager.setAdapter(sliderAdapter);
 
         viewPager.addOnPageChangeListener(viewListener);
-
-        Next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentpage == 6){
-                    Intent intent = new Intent(getApplicationContext(), EnterNumberActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-                viewPager.setCurrentItem(currentpage+1);
-            }
-        });
     }
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
@@ -90,11 +65,6 @@ public class WalkThroughActivity extends AppCompatActivity {
         @Override
         public void onPageSelected(int position) {
             currentpage = position;
-            iv1.setBackgroundColor(getResources().getColor(colors1[position]));
-            iv2.setBackgroundColor(getResources().getColor(colors2[position]));
-            iv3.setBackgroundColor(getResources().getColor(colors3[position]));
-            iv4.setBackgroundColor(getResources().getColor(colors4[position]));
-            iv5.setBackgroundColor(getResources().getColor(colors5[position]));
         }
 
         @Override
@@ -108,7 +78,7 @@ public class WalkThroughActivity extends AppCompatActivity {
         LayoutInflater layoutInflater;
         Context context;
 
-        int[] Images = {R.drawable.helpsomeone, R.drawable.helplogo, R.drawable.meditationlogo, R.drawable.workoutlogo, R.drawable.counselling, R.drawable.faq, R.drawable.coronalogo};
+        int[] Images = {R.drawable.helpsomeone, R.drawable.helplogo, R.drawable.meditationlogo, R.drawable.workoutlogo, R.drawable.counsellorlogo, R.drawable.faq, R.drawable.coronalogo};
         String[] MainTitles = {"Be a superhero! Help people in these tough times!", "Need something? Get help from thousands of our volunteers!", "Stressed out? Feeling low? Meditate to calm yourself down!", "Workout with us and keep your body fit in this quarantine!", "Confused? Have Questions? Our counsellors are here to help you 24x7!", "Wanna know more? Check out the FAQs and latest trends of Covid-19!", "Know more about Covid-19 and its symptoms!"};
 
         public SliderAdapter(Context context) {
@@ -132,16 +102,39 @@ public class WalkThroughActivity extends AppCompatActivity {
             View view = layoutInflater.inflate(R.layout.walkthrough_slider_layout, container, false);
 
             TextView MainHeadings = (TextView) view.findViewById(R.id.tvwtslmain);
-            ImageView SlideImage = (ImageView) view.findViewById(R.id.ivwtslimage);
+            LottieAnimationView lav = (LottieAnimationView) view.findViewById(R.id.lavwtslimage);
+            CardView Next = (CardView) view.findViewById(R.id.cvwtanext);
+            ImageView iv1 = (ImageView)view.findViewById(R.id.iv1);
+            ImageView iv2 = (ImageView)view.findViewById(R.id.iv2);
+            ImageView iv3 = (ImageView)view.findViewById(R.id.iv3);
+            ImageView iv4 = (ImageView)view.findViewById(R.id.iv4);
+            //ImageView iv5 = (ImageView)view.findViewById(R.id.iv5);
+
+            iv1.setBackgroundColor(getResources().getColor(colors1[position]));
+            iv2.setBackgroundColor(getResources().getColor(colors2[position]));
+            iv3.setBackgroundColor(getResources().getColor(colors3[position]));
+            iv4.setBackgroundColor(getResources().getColor(colors4[position]));
+            //iv5.setBackgroundColor(getResources().getColor(colors5[position]));
+
+            lav.setAnimation(names[position]);
 
             MainHeadings.setText(MainTitles[position]);
-            SlideImage.setImageResource(Images[position]);
-            if (position == 1 || position == 2 || position == 3 || position == 4){
-                SlideImage.setScaleX(1.3f); SlideImage.setScaleY(1.3f);
-            }
-            else{
-                SlideImage.setScaleX(1.0f); SlideImage.setScaleY(1.0f);
-            }
+
+            Next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (currentpage == 6){
+                        editor.putInt("FirstTime", 1);
+                        editor.apply(); editor.commit();
+
+                        Intent intent = new Intent(getApplicationContext(), EnterNumberActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
+                    }
+                    viewPager.setCurrentItem(currentpage+1);
+                }
+            });
 
             container.addView(view);
             return view;
